@@ -12,6 +12,7 @@ export const normalizeProduct = (response: ProductResponse): ProductAttr => {
   let variants: VariantAttr[] = [];
   let option_types: OptionTypeAttr[] = [];
   let option_values: OptionValueAttr[] = [];
+
   included?.forEach((value) => {
     switch (value.type) {
       case 'variant':
@@ -27,11 +28,38 @@ export const normalizeProduct = (response: ProductResponse): ProductAttr => {
         break;
     }
   });
+
+  const cleanedOptions = defineOptions(option_types, option_values);
+  const variantOptions = expandVariantOptions(variants, option_values);
   return {
     id: data.id,
     ...data.attributes,
-    variants,
+    variants: variantOptions,
     option_types,
     option_values,
+    options: cleanedOptions,
   };
+};
+
+const defineOptions = (
+  option_types: OptionTypeAttr[],
+  option_values: OptionValueAttr[],
+) => {
+  const options = option_types.map((type) => {
+    const values = option_values.filter((v) => v.option_type_id == type.id);
+    return { type: type.name, values };
+  });
+  return options;
+};
+
+const expandVariantOptions = (variants, options) => {
+  return variants.map((variant) => {
+    const variantOptions = variant.relationships.option_values.data.map(
+      (value) => {
+        return options.find((o) => o.id == value.id);
+      },
+    );
+    variant.options = variantOptions;
+    return variant;
+  });
 };

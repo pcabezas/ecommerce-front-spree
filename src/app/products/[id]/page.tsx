@@ -2,6 +2,7 @@ import { ProductResponse } from '@/app/utils/interfaces/product-response';
 import { getProduct } from '../api/get-product';
 import { normalizeProduct } from '@/app/utils/normalize-product-response';
 import { ProductAttr } from '@/app/utils/interfaces/product';
+import ProductContainer from '../components/product-container';
 
 const Product = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
@@ -11,15 +12,9 @@ const Product = async ({ params }: { params: { id: number } }) => {
     'variants.option_values',
   ]);
   const product: ProductAttr = normalizeProduct(response);
-  const { variants } = product;
-  const { option_types } = product;
-
   return (
     <div>
-      {product.name}
-      {variants &&
-        variants.length > 0 &&
-        variants.map((variant) => <div key={variant.id}>{variant.sku}</div>)}
+      <ProductContainer product={product}></ProductContainer>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { OptionTypeAttr } from './option-type';
 import { OptionValueAttr } from './option-value';
+import { ProductOption } from './product-options';
 import { IRelationships } from './relationships';
 import { VariantAttr } from './variant';
 
@@ -18,7 +19,8 @@ export interface ProductAttr {
   in_stock?: boolean;
   backorderable?: boolean;
   slug?: string;
-  variants?: VariantAttr[];
-  option_types?: OptionTypeAttr[];
-  option_values?: OptionValueAttr[];
+  variants: VariantAttr[];
+  option_types: OptionTypeAttr[];
+  option_values: OptionValueAttr[];
+  options: ProductOption;
 }

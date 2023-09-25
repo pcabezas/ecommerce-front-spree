@@ -1,3 +1,5 @@
+import { IRelationships } from './relationships';
+
 export interface VariantAttr {
   id: number;
   sku?: string;
@@ -13,4 +15,5 @@ export interface VariantAttr {
   purchasable?: boolean;
   in_stock?: boolean;
   backorderable?: boolean;
+  relationships: IRelationships;
 }

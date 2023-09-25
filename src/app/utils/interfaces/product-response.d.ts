@@ -5,7 +5,7 @@ export interface Data {
   id: string;
   type: string;
   attributes: ProductAttr;
-  relationships: DataRelationships;
+  relationships: IRelationships;
 }
 
 export interface ProductResponse {
