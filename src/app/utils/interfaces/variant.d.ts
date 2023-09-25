@@ -16,4 +16,5 @@ export interface VariantAttr {
   in_stock?: boolean;
   backorderable?: boolean;
   relationships: IRelationships;
+  options: [];
 }

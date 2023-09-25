@@ -22,5 +22,5 @@ export interface ProductAttr {
   variants: VariantAttr[];
   option_types: OptionTypeAttr[];
   option_values: OptionValueAttr[];
-  options: ProductOption;
+  options: ProductOption[];
 }

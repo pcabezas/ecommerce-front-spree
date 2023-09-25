@@ -2,12 +2,14 @@
 
 import { Radio, RadioGroup, Swatch } from '@sajari/react-components';
 import { ProductOption } from '@/app/utils/interfaces/product-options';
+import { SelectedOptions } from '../../helpers/get-selected-variant';
 
 const OptionValues = ({
   options,
   selectedOptions,
 }: {
-  options: ProductOption;
+  options: ProductOption[];
+  selectedOptions: SelectedOptions;
 }) => {
   const render = options.map((opt) => {
     if (opt.type === 'color') {
@@ -19,7 +21,10 @@ const OptionValues = ({
   return render;
 };
 
-const renderOptionColor = (opt, selectedOptions) => {
+const renderOptionColor = (
+  opt: ProductOption,
+  selectedOptions: SelectedOptions,
+) => {
   return (
     <div className="pb-4" key={opt.type}>
       <h2 className="uppercase font-medium text-sm tracking-wide">
@@ -28,7 +33,13 @@ const renderOptionColor = (opt, selectedOptions) => {
       <div role="listbox" className="flex flex-row py-4">
         <Swatch checkedColors={checkedColor(opt, selectedOptions)}>
           {opt.values.map((v) => {
-            return <Swatch.Color key={v.id} id={v.id} bg={v.presentation} />;
+            return (
+              <Swatch.Color
+                key={v.id}
+                id={v.id.toString()}
+                bg={v.presentation}
+              />
+            );
           })}
         </Swatch>
       </div>
@@ -36,7 +47,10 @@ const renderOptionColor = (opt, selectedOptions) => {
   );
 };
 
-const renderOptionRadio = (opt, selectedOptions) => {
+const renderOptionRadio = (
+  opt: ProductOption,
+  selectedOptions: SelectedOptions,
+) => {
   const selectedValueId = getSelectedOptionValueId(opt, selectedOptions);
   return (
     <div key={opt.type}>
@@ -56,12 +70,18 @@ const renderOptionRadio = (opt, selectedOptions) => {
   );
 };
 
-const checkedColor = (option, selectedOptions) => {
+const checkedColor = (
+  option: ProductOption,
+  selectedOptions: SelectedOptions,
+) => {
   const selectedValue = getSelectedOptionValueId(option, selectedOptions);
   return [selectedValue];
 };
 
-const getSelectedOptionValueId = (option, selectedOptions) => {
+const getSelectedOptionValueId = (
+  option: ProductOption,
+  selectedOptions: SelectedOptions,
+) => {
   const id = selectedOptions[option.values[0].option_type_id];
   return id == undefined ? '0' : id.toString();
 };
