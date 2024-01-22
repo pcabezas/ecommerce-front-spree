@@ -18,7 +18,10 @@ const Product = async ({ params }: { params: { id: number } }) => {
 
   return (
     <div>
-      <ProductContainer product={product} cartToken={cartToken}></ProductContainer>
+      <ProductContainer
+        product={product}
+        cartToken={cartToken}
+      ></ProductContainer>
     </div>
   );
 };

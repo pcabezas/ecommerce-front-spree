@@ -1,5 +1,6 @@
 'use client';
 
+import styles from './styles.module.css';
 import { Radio, RadioGroup, Swatch } from '@sajari/react-components';
 import { ProductOption } from '@/app/utils/interfaces/product-options';
 import { SelectedOptions } from '../../helpers/get-selected-variant';
@@ -26,10 +27,10 @@ const renderOptionColor = (
   selectedOptions: SelectedOptions,
 ) => {
   return (
-    <div className="pb-4" key={opt.type}>
-      <h2 className="uppercase font-medium text-sm tracking-wide">
+    <div className={styles.optionSelectContainer} key={opt.type}>
+      <span className="uppercase font-medium text-sm tracking-wide">
         {opt.type}
-      </h2>
+      </span>
       <div role="listbox" className="flex flex-row py-4">
         <Swatch checkedColors={checkedColor(opt, selectedOptions)}>
           {opt.values.map((v) => {
@@ -53,10 +54,10 @@ const renderOptionRadio = (
 ) => {
   const selectedValueId = getSelectedOptionValueId(opt, selectedOptions);
   return (
-    <div key={opt.type}>
-      <h2 className="uppercase font-medium text-sm tracking-wide">
+    <div className={styles.optionSelectContainer} key={opt.type}>
+      <span className="uppercase font-medium text-sm tracking-wide">
         {opt.type}
-      </h2>
+      </span>
       <RadioGroup inline value={selectedValueId}>
         {opt.values.map((v) => {
           return (

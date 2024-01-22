@@ -3,6 +3,7 @@ import { VariantAttr } from '@/app/utils/interfaces/variant';
 import { Button } from '@sajari/react-components';
 import { useState } from 'react';
 import addItem from '../api/add-item';
+import { useRouter } from 'next/navigation';
 
 const AddToCart = ({
   cartToken,
@@ -14,11 +15,11 @@ const AddToCart = ({
   quantity: number;
 }) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const addToCart = async () => {
     setLoading(true);
     try {
       const order = await addItem(cartToken.value, variant.id, quantity);
-      console.log(order);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -26,7 +27,8 @@ const AddToCart = ({
   };
 
   const buttonHandle = async (e) => {
-    addToCart();
+    await addToCart();
+    router.refresh();
   };
 
   return (

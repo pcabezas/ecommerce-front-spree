@@ -1,14 +1,22 @@
-'use client';
+'use client'
 
-import CartTokenCookie from '@/app/utils/interfaces/cart-token-cookie';
-import { checkUserCart } from '@/app/utils/user-cart';
-import { Fragment } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-export const Session = ({
-  cartToken,
-}: {
-  cartToken: CartTokenCookie | undefined;
-}) => {
-  checkUserCart(cartToken);
-  return <Fragment></Fragment>;
+export const Session = () => {
+  const router = useRouter();
+  const ensureCartTokenExist = async () => {
+    const res = await fetch('http://0.0.0.0:3000/auth/api/cart-token');
+    if (res.ok) {
+      router.refresh();
+    } else {
+      console.log('algo fallo');
+    }
+  };
+
+  useEffect(() => {
+    ensureCartTokenExist();
+  }, []);
+
+  return <></>;
 };

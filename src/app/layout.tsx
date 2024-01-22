@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Session } from './auth/components/session';
-import { cookies } from 'next/headers';
-import CartTokenCookie from './utils/interfaces/cart-token-cookie';
+import CartItemsCounter from './cart/components/cart-items-counter';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,14 +15,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const nextCookies = cookies();
-  const tokenCart: CartTokenCookie | undefined =
-    nextCookies.get('spree_cart_token');
-
   return (
     <html lang="en">
-      <Session cartToken={tokenCart}></Session>
-      <body className={inter.className}>{children}</body>
+      <Session />
+      <body className={inter.className}>
+        <CartItemsCounter />
+        {children}
+      </body>
     </html>
   );
 }
