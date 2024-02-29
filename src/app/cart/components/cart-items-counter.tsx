@@ -1,3 +1,4 @@
+import styles from './styles.module.css';
 import getCartTokenCookie from '@/app/auth/utils/get-cart-token-cookie';
 import getCartItemsCount from '../api/cart-items-count';
 import Link from 'next/link';
@@ -10,8 +11,8 @@ const CartItemsCounter = async () => {
   const { value } = cartToken;
   cartItems = await getCartItemsCount(value);
   return (
-    <div>
-      Carro {cartItems}
+    <div className={styles.CartCounterContainer}>
+      Cart Items {cartItems}
       {cartItems > 0 && <Link href={'/cart'}>Carro</Link>}
     </div>
   );

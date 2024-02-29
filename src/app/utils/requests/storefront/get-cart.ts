@@ -3,8 +3,6 @@ import { CartInterface } from '@/app/utils/interfaces/cart';
 export const getCart = async (cartToken: string): Promise<CartInterface> => {
   const endpointDomain = process.env.SPREE_API_STOREFRONT;
   const action = '/cart';
-
-  // TODO: Find better way to set Query Params
   const response = await fetch(endpointDomain + action, {
     method: 'GET',
     headers: {

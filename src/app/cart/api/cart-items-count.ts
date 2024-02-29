@@ -1,5 +1,4 @@
 const getCartItemsCount = async (tokenCart: string) => {
-  console.log('token -->', tokenCart)
   const endpointDomain = process.env.SPREE_API_STOREFRONT;
   const action = '/cart';
 
