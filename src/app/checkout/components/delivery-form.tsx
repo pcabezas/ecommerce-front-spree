@@ -42,7 +42,7 @@ const DeliveryForm = ({ cartToken, shippingRates }: Props) => {
         ></DeliveryShippingRate>
       ))}
       <div>
-        <input type="button" onClick={handleButtonSubmit} value='continuar'/>
+        <input type="button" onClick={handleButtonSubmit} value="continuar" />
       </div>
     </div>
   );
