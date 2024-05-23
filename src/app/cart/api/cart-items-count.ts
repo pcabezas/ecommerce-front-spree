@@ -14,9 +14,13 @@ const getCartItemsCount = async (tokenCart: string) => {
       },
     },
   );
+  const res = await response.json();
+  if (res.error) {
+    return 0;
+  }
   const {
     data: { attributes },
-  } = await response.json();
+  } = res;
   const { item_count: itemCount } = attributes;
   return itemCount;
 };

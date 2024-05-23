@@ -1,7 +1,8 @@
-import { CartData, CartInterface } from '@/app/utils/interfaces/cart';
+import { CartData } from '@/app/utils/interfaces/cart';
 
-export const getCart = async (
+export const getOrderStatus = async (
   cartToken: string,
+  orderNumber: string,
   includes: Array<string>,
 ): Promise<CartData> => {
   const endpointDomain = process.env.SPREE_API_STOREFRONT;
@@ -11,7 +12,7 @@ export const getCart = async (
       ? (includeParams += `include=${includes[index]}`)
       : (includeParams += `,${includes[index]}`);
   }
-  const action = `/cart?${includeParams}`;
+  const action = `/order_status/${orderNumber}?${includeParams}`;
   const response = await fetch(endpointDomain + action, {
     method: 'GET',
     headers: {

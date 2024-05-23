@@ -1,13 +1,17 @@
 import { cookies } from 'next/headers';
 import { CART_COOKIE_NAME } from '../utils/constants';
 import Link from 'next/link';
-import { getCart } from './utils/requests/get-cart';
+import { getCart } from '../checkout/utils/request/get-cart';
 
 const Cart = async () => {
   const cartToken = cookies().get(CART_COOKIE_NAME)!;
   const {
-    data: { total, item_total, ship_total, adjustment_total, state },
-  } = await getCart(cartToken.value);
+    response: {
+      data: {
+        attributes: { total, item_total, ship_total, adjustment_total, state },
+      },
+    },
+  } = await getCart(cartToken.value, []);
   return (
     <div>
       <div>

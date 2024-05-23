@@ -5,6 +5,8 @@ import React from 'react';
 import Address from '../components/address';
 import Delivery from '../components/delivery';
 import Registration from '../components/registration';
+import Payment from '../components/payment';
+import Confirm from '../components/confirm';
 
 interface Props {
   params: { state: string };
@@ -12,9 +14,14 @@ interface Props {
 
 const Checkout = async ({ params: { paramState } }: Props) => {
   const cartToken = cookies().get(CART_COOKIE_NAME)!;
+  const cartResponse = await getCart(cartToken.value);
   const {
-    data: { state },
-  } = await getCart(cartToken.value);
+    response: {
+      data: {
+        attributes: { state },
+      },
+    },
+  } = cartResponse;
   switch (state) {
     case 'cart':
       return <Registration cartToken={cartToken} />;
@@ -22,7 +29,10 @@ const Checkout = async ({ params: { paramState } }: Props) => {
       return <Address cartToken={cartToken} />;
     case 'delivery':
       return <Delivery cartToken={cartToken} />;
-
+    case 'payment':
+      return <Payment cartToken={cartToken} />;
+    case 'confirm':
+      return <Confirm cartToken={cartToken} />;
     default:
       <div>Undefined state: {state}</div>;
   }
