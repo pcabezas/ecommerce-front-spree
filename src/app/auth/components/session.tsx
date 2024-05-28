@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -6,11 +6,13 @@ import { useEffect } from 'react';
 export const Session = () => {
   const router = useRouter();
   const ensureCartTokenExist = async () => {
-    const res = await fetch('http://0.0.0.0:3000/auth/api/cart-token');
-    if (res.ok) {
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + '/auth/cart-token',
+    );
+    if (res.status === 200) {
       router.refresh();
     } else {
-      console.log('algo fallo');
+      console.error('algo fallo');
     }
   };
 

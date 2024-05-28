@@ -1,9 +1,15 @@
-import { CartData, CartInterface } from '@/app/utils/interfaces/cart';
+import { CartInterface } from '@/app/utils/interfaces/cart';
+
+type getCartResponseType = {
+  data: CartInterface;
+  included: Array<any>;
+  ok: boolean;
+};
 
 export const getCart = async (
   cartToken: string,
   includes: Array<string>,
-): Promise<CartData> => {
+): Promise<getCartResponseType> => {
   const endpointDomain = process.env.SPREE_API_STOREFRONT;
   let includeParams = '';
   for (const index in includes) {
@@ -21,5 +27,5 @@ export const getCart = async (
     },
   });
   const { data, included } = await response.json();
-  return { data, included };
+  return { data, included, ok: response.ok };
 };
