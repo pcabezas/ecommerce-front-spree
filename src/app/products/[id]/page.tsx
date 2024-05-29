@@ -1,5 +1,5 @@
 import { ProductResponse } from '@/app/utils/interfaces/product-response';
-import { getProduct } from '../api/get-product';
+import { getProduct } from '../../utils/requests/storefront/get-product';
 import { normalizeProduct } from '@/app/utils/normalize-product-response';
 import { ProductAttr } from '@/app/utils/interfaces/product';
 import ProductContainer from '../components/product-container';

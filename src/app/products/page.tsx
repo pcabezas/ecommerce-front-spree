@@ -1,11 +1,19 @@
 import Link from 'next/link';
-import { getProducts } from './api/get-products';
+import { getProducts } from './utils/requests/get-products';
 
-const Products = async () => {
-  const products = await getProducts();
+export default async function Products() {
+  const {
+    status,
+    response: { data, ok },
+  } = await getProducts();
+
+  if (status !== 200 || (status === 200 && !ok)) {
+    throw new Error('Error giving products');
+  }
+
   return (
     <div>
-      {products.map((product) => (
+      {data.map((product) => (
         <div key={product.slug}>
           {product.attributes.name} | {product.attributes.slug} |
           {product.attributes.price}
@@ -14,6 +22,4 @@ const Products = async () => {
       ))}
     </div>
   );
-};
-
-export default Products;
+}

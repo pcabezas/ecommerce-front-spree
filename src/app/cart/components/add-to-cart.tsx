@@ -2,7 +2,7 @@ import CartTokenCookie from '@/app/utils/interfaces/cart-token-cookie';
 import { VariantAttr } from '@/app/utils/interfaces/variant';
 import { Button } from '@sajari/react-components';
 import { useState } from 'react';
-import addItem from '../api/add-item';
+import addItem from '../../utils/requests/storefront/add-item';
 import { useRouter } from 'next/navigation';
 
 const AddToCart = ({

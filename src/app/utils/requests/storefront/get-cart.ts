@@ -1,15 +1,9 @@
-import { CartInterface } from '@/app/utils/interfaces/cart';
-
-type getCartResponseType = {
-  data: CartInterface;
-  included: Array<any>;
-  ok: boolean;
-};
+import { StorefrontResponse } from '../../interfaces/storefront-response';
 
 export const getCart = async (
   cartToken: string,
   includes: Array<string>,
-): Promise<getCartResponseType> => {
+): Promise<StorefrontResponse> => {
   const endpointDomain = process.env.SPREE_API_STOREFRONT;
   let includeParams = '';
   for (const index in includes) {
