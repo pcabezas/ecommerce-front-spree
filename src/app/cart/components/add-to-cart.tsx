@@ -2,8 +2,8 @@ import CartTokenCookie from '@/app/utils/interfaces/cart-token-cookie';
 import { VariantAttr } from '@/app/utils/interfaces/variant';
 import { Button } from '@sajari/react-components';
 import { useState } from 'react';
-import addItem from '../../utils/requests/storefront/add-item';
 import { useRouter } from 'next/navigation';
+import { addItem } from '../utils/requests/add-item';
 
 const AddToCart = ({
   cartToken,
@@ -19,7 +19,15 @@ const AddToCart = ({
   const addToCart = async () => {
     setLoading(true);
     try {
-      const order = await addItem(cartToken.value, variant.id, quantity);
+      const {
+        status,
+        response: { data, ok },
+      } = await addItem(cartToken.value, variant.id, quantity);
+      if (status === 200 && ok) {
+        // TODO: show success message
+      } else {
+        // TODO: show error message
+      }
       setLoading(false);
     } catch (err) {
       setLoading(false);
