@@ -2,16 +2,17 @@ import { cookies } from 'next/headers';
 import { CART_COOKIE_NAME } from '../utils/constants';
 import Link from 'next/link';
 import { getCart } from '../checkout/utils/request/get-cart';
+import { normalizeOrder } from '../utils/normalize-order-response';
 
 const Cart = async () => {
   const cartToken = cookies().get(CART_COOKIE_NAME)!;
-  const {
-    response: {
-      data: {
-        attributes: { total, item_total, ship_total, adjustment_total, state },
-      },
-    },
-  } = await getCart(cartToken.value, []);
+  const { status, response } = await getCart(cartToken.value, []);
+  const { data, ok } = response;
+  if (status !== 200 || (status === 200 && !ok)) {
+    throw new Error('Error getting Cart data', data);
+  }
+  const { total, item_total, ship_total, adjustment_total, state } =
+    normalizeOrder(response);
   return (
     <div>
       <div>

@@ -6,7 +6,6 @@ export async function GET(req: NextRequest) {
   const token: string = searchParams.get('cartToken')!;
   const includeParams = searchParams.get('include');
   const includes = includeParams?.split(',');
-  const { data, included } = await getCart(token, includes);
-  const response = { data, included };
+  const response = await getCart(token, includes);
   return NextResponse.json({ response, status: 200 });
 }

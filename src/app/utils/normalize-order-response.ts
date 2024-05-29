@@ -1,8 +1,12 @@
+import { CartData } from './interfaces/cart';
 import { OrderAttributes, PaymentAttributes } from './interfaces/order';
 import { normalizePaymentResponse } from './normalize-payment-response';
 
-export const normalizeOrder = (response): OrderAttributes => {
-  const { data, included } = response;
+export const normalizeOrder = (response: CartData): OrderAttributes => {
+  const {
+    data: { id, attributes },
+    included,
+  } = response;
   let payments: PaymentAttributes[] = [];
 
   included?.forEach((value) => {
@@ -16,8 +20,8 @@ export const normalizeOrder = (response): OrderAttributes => {
   });
 
   return {
-    id: data.id,
-    ...data.attributes,
-    payments,
+    id,
+    ...attributes,
+    payments: payments,
   };
 };
