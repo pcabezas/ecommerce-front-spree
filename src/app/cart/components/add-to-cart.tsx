@@ -34,7 +34,7 @@ const AddToCart = ({
     }
   };
 
-  const buttonHandle = async (e) => {
+  const buttonHandle = async () => {
     await addToCart();
     router.refresh();
   };
