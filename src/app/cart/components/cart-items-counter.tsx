@@ -3,6 +3,7 @@ import getCartTokenCookie from '@/app/auth/utils/get-cart-token-cookie';
 import getCartItemsCount from '../../utils/requests/storefront/cart-items-count';
 import Link from 'next/link';
 import { getCountItems } from '../utils/requests/get-count-items';
+import { normalizeCartItemsCount } from '@/app/utils/normalize-cart-item-count-response';
 
 const CartItemsCounter = async () => {
   const cartToken = getCartTokenCookie();
@@ -10,10 +11,15 @@ const CartItemsCounter = async () => {
 
   let cartItems = 0;
   const { value } = cartToken;
-  const { status, data, ok } = await getCountItems(value);
+  const {
+    status,
+    response: { data, ok },
+  } = await getCountItems(value);
   if (status !== 200 || (status === 200 && !ok)) {
     throw new Error('Error getting cart items count', data);
   }
+  const cart = normalizeCartItemsCount(data);
+  cartItems = cart.item_count;
   return (
     <div className={styles.CartCounterContainer}>
       Cart Items {cartItems}
