@@ -5,17 +5,37 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { addCartAddress } from '../utils/request/add-cart-address';
 import { cartNextStep } from '../utils/request/cart-next-step';
 import { useRouter } from 'next/navigation';
+import CartTokenCookie from '@/app/utils/interfaces/cart-token-cookie';
+interface Props {
+  cartToken: CartTokenCookie;
+}
 
-export const AddressForm = ({cartToken}) => {
+interface AddressFormInterface {
+  firstname: string;
+  lastname: string;
+  address1: string;
+  address2: string;
+  city: string;
+  zipcode: string;
+  phone: string;
+  state_name: string;
+  alternative_phone: string;
+  company: string;
+  country_iso: string;
+}
+
+export const AddressForm = ({ cartToken }: Props) => {
   const router = useRouter();
-  const handleSubmit = async (values) => {
-    const res = await addCartAddress(cartToken.value, values);
-    if (res.status == 200) {
+  const handleSubmit = async (values: AddressFormInterface) => {
+    const {
+      status,
+      response: { ok },
+    } = await addCartAddress(cartToken.value, values);
+    if (status === 200 && ok) {
       const nextRes = await cartNextStep(cartToken.value);
-      console.log(nextRes);
       router.refresh();
     } else {
-      console.log(res);
+      console.error('Error adding address');
     }
   };
 
