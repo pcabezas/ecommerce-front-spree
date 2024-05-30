@@ -3,7 +3,7 @@ export const addShippingMethod = async (
   shipping_method_id: number,
 ) => {
   const res = await fetch(
-    'http://0.0.0.0:3000/api/v1/checkout/select-shipping-method',
+    `${process.env.NEXT_PUBLIC_API_URL}/checkout/select-shipping-method`,
     {
       method: 'PATCH',
       body: JSON.stringify({

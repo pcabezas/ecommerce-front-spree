@@ -16,20 +16,23 @@ const DeliveryForm = ({ cartToken, shippingRates }: Props) => {
   const router = useRouter();
   const selectedShippingRate = shippingRates.find((e) => e.selected);
   const [selectedShippingMethod, setSelectedShippingMethod] = useState(
-    selectedShippingRate.shipping_method_id,
+    selectedShippingRate?.shipping_method_id,
   );
 
   const handleButtonSubmit = async () => {
-    const res = await addShippingMethod(
-      cartToken.value,
-      selectedShippingMethod,
-    );
-    if (res.status == 200) {
+    if (!selectedShippingMethod) {
+      console.error('No shipping method selected');
+      return;
+    }
+    const {
+      status,
+      response: { ok },
+    } = await addShippingMethod(cartToken.value, selectedShippingMethod);
+    if (status === 200 && ok) {
       const nextRes = await cartNextStep(cartToken.value);
-      console.log(nextRes);
       router.refresh();
     } else {
-      console.log(res);
+      console.log('Error adding shipping method');
     }
   };
 
