@@ -33,7 +33,7 @@ export interface OrderAttributes {
   shipment_state: string;
   payment_state: string;
   public_metadata: PublicMetadata;
-  payments?: PaymentAttributes[] | [];
+  payments: PaymentAttributes[] | [];
 }
 
 export interface PublicMetadata {}

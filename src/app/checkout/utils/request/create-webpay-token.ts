@@ -3,7 +3,7 @@ export const createWebpayToken = async (
   payment_id: number,
 ) => {
   const res = await fetch(
-    `http://0.0.0.0:3000/api/v1/webpay/create-payment-token`,
+    `${process.env.NEXT_PUBLIC_API_URL}/webpay/create-payment-token`,
     {
       method: 'POST',
       body: JSON.stringify({

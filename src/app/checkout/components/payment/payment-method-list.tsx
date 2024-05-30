@@ -12,9 +12,14 @@ interface Props {
 }
 
 const PaymentMethodsList = ({ cartToken, paymentMethods }: Props) => {
-  const [selectedMethod, setSelectedMethod] = useState({});
-  const handleChangePaymentMethod = (event) => {
-    const selected = paymentMethods.find((e) => e.id == event.target.value);
+  const [selectedMethod, setSelectedMethod] =
+    useState<PaymentMethodAttributes>();
+  const handleChangePaymentMethod = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const selected = paymentMethods.find(
+      (e) => e.id.toString() === event.target.value,
+    );
     if (selected) setSelectedMethod(selected);
   };
 
@@ -23,11 +28,11 @@ const PaymentMethodsList = ({ cartToken, paymentMethods }: Props) => {
     switch (key) {
       case 'check':
         return (
-          <CheckForm cartToken={cartToken} paymentMethod={selectedMethod} />
+          <CheckForm cartToken={cartToken} paymentMethod={selectedMethod!} />
         );
       case 'webpay':
         return (
-          <WebpayForm cartToken={cartToken} paymentMethod={selectedMethod} />
+          <WebpayForm cartToken={cartToken} paymentMethod={selectedMethod!} />
         );
       default:
         return <div></div>;

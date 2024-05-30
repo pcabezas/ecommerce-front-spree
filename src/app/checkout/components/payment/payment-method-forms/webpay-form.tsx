@@ -16,6 +16,10 @@ interface Props {
   paymentMethod: PaymentMethodAttributes;
 }
 
+interface FormValuesInterface {
+  payment_method_id: number;
+}
+
 const WebpayForm = ({ cartToken, paymentMethod }: Props) => {
   const router = useRouter();
   const schemaValidation = () => {
@@ -23,27 +27,28 @@ const WebpayForm = ({ cartToken, paymentMethod }: Props) => {
       payment_method_id: Yup.number().required('Required'),
     });
   };
-
-  const handleSubmit = async (values) => {
-    debugger
-    const response = await createPayment(
+  const handleSubmit = async (values: FormValuesInterface) => {
+    const { status, response } = await createPayment(
       cartToken.value,
       values.payment_method_id,
     );
-    if (response.status === 200) {
-      const order = normalizeOrder(response.response);
-      const payment = order.payments.find(
-        (p) => p.payment_method_name === 'WebPay',
-      );
-      if (payment) {
-        const tokenResponse = await createWebpayToken(
-          cartToken.value,
-          payment.id,
-        );
-        if (tokenResponse.status === 200) {
-          console.log('tokenResponse', tokenResponse);
-          const nextRes = await cartNextStep(cartToken.value);
-        }
+    if (status !== 200 || (status === 200 && !response.ok)) {
+      console.error('Error on create payment', response);
+      return;
+    }
+    const order = normalizeOrder(response);
+    const payment = order.payments.find(
+      (p) => p.payment_method_name === 'WebPay',
+    );
+    if (payment) {
+      const {
+        status: tokenStatus,
+        response: { ok },
+      } = await createWebpayToken(cartToken.value, payment.id);
+      if (tokenStatus === 200 && ok) {
+        const nextRes = await cartNextStep(cartToken.value);
+      } else {
+        console.error('Error on create webpay token', tokenStatus);
       }
     }
     router.refresh();
