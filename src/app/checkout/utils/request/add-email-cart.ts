@@ -3,7 +3,7 @@ interface Payload {
 }
 
 export const addEmailToCart = async (cartToken: string, payload: Payload) => {
-  const res = await fetch(`http://0.0.0.0:3000/api/v1/checkout`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
     method: 'PATCH',
     body: JSON.stringify({
       cartToken: cartToken,

@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function PATCH(req: NextRequest) {
   const { cartToken } = await req.json();
-  console.log("AQUIII2", cartToken)
   const response = await nextCheckoutStep(cartToken);
   return NextResponse.json({ response, status: 200 });
 }
